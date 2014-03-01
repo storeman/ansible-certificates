@@ -1,0 +1,20 @@
+---
+- name: Copy private ssl keys to /etc/ssl
+  copy:
+    src: "{{ item }}"
+    dest: /etc/ssl/private
+    owner: root
+    group: root
+    mode: 0600
+  with_items: ssl_private_keys
+  when: ssl_private_keys is defined
+
+- name: Copy ssl certificates to /etc/ssl
+  copy:
+    src: "{{ item }}"
+    dest: /etc/ssl/certs
+    owner: root
+    group: root
+    mode: 0644
+  with_items: ssl_certificates
+  when: ssl_certificates is defined
