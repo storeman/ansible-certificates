@@ -18,3 +18,14 @@
     mode: 0644
   with_items: ssl_certificates
   when: ssl_certificates is defined
+
+- name: Copy private ssl key files to /etc/ssl
+  copy:
+    content: "{{ item.content }}"
+    dest: /etc/ssl/private/{{ item.name }}
+    owner: root
+    group: root
+    mode: 0600
+  with_items: ssl_private_key_contents
+  when: ssl_private_key_contents is defined
+  no_log: true

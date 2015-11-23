@@ -5,6 +5,7 @@ Description
 
  * coping of certficates
  * coping of private keys
+ * storing encrypted private keys
 
 I use the role as part of my common setup.
 
@@ -32,6 +33,21 @@ ssl_certificates:
 ssl_private_keys:
     - keys/www.example.com.key # copy from ansible project folder
     - /Users/user/.certs/keys/mail.example.com.key # copy from absolute path
+
+# Or define content, so you can encrypt this var file with ansible-vault
+ssl_private_key_contents:
+    - name: mykey.key
+      content: |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIJKAIBAAKCAgEA25qk2rd29s4Z6vTBs1gHznsNS9e3J/C87H5pX0zm0UJtyUfm
+        +3hrX5Ag+U368OFO7XeR09iuWhae5FYe5GGFz7CRcIo29hLroXXQgh5cFfrmOdJw
+        GCvASbVJhIES0Q/XifS2KNU72fTge7teCsqXo9RgNzNqGK7pgXutPQ8e9NF3NfZj
+        XKJhzThde75Ih2Or36R7JKfNfq+jv9t8ulbSrlDltCXafo5+k/RdYtG8QhGKHTHW
+        ...
+        ...
+        ...
+        -----END RSA PRIVATE KEY-----  
+
 ```
 
 Examples
@@ -44,6 +60,23 @@ Like so you can include the role in your setup:
 
 - { role: lxhunter.certficates }
 ```
+
+Example with encrypted settings
+===========
+
+1. First, create a file with your private keys like ```mykeys.yml``` and enter the
+settings ```ssl_private_key_contents``` variable
+2. Encrypt the file using ansible-vault ```ansible-vault encrypt mykeys.yml```
+3. Load the file before you use the role:
+```
+pre_tasks:
+  - name: Load certificates
+    include_vars: "certificates/mykeys.yml"
+    no_log: true
+roles:
+  - storeman.certificates
+```
+4. Run your playbook, don't forget to pass the ```--ask-vault-pass``` parameter
 
 Quote
 ==========
