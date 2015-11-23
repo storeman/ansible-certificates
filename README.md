@@ -67,7 +67,7 @@ Example with encrypted settings
 1. First, create a file with your private keys like ```mykeys.yml``` and enter the
 settings ```ssl_private_key_contents``` variable
 2. Encrypt the file using ansible-vault ```ansible-vault encrypt mykeys.yml```
-3. Load the file before you use the role:
+3. Load the file before you use the role:    
 ```
 pre_tasks:
   - name: Load certificates
