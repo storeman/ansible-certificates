@@ -6,7 +6,7 @@
     owner: root
     group: root
     mode: 0600
-  with_items: ssl_private_keys
+  with_items: '{{ssl_private_keys}}'
   when: ssl_private_keys is defined
 
 - name: Copy ssl certificates to /etc/ssl
@@ -16,7 +16,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items: ssl_certificates
+  with_items: '{{ssl_certificates}}'
   when: ssl_certificates is defined
 
 - name: Copy private ssl key files to /etc/ssl
@@ -26,6 +26,6 @@
     owner: root
     group: root
     mode: 0600
-  with_items: ssl_private_key_contents
+  with_items: '{{ssl_private_key_contents}}'
   when: ssl_private_key_contents is defined
   no_log: true
